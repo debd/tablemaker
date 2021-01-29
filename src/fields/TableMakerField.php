@@ -21,13 +21,13 @@ use craft\helpers\Db;
 use yii\db\Schema;
 use craft\helpers\Json;
 use craft\helpers\Template;
+use function addslashes;
 
 /**
  * @author    Supercool Ltd
  * @package   TableMaker
  * @since     1.0.0
  */
-
 class TableMakerField extends Field
 {
     // Public Properties
@@ -39,6 +39,8 @@ class TableMakerField extends Field
     public $rowsLabel;
     public $rowsInstructions;
     public $rowsAddRowLabel;
+    public $columnsIncludeMetaheading;
+    public $columnsIncludeWidth;
 
 
     // Static Methods
@@ -100,7 +102,7 @@ class TableMakerField extends Field
      * this method returns is what `entry.myFieldHandle` will likewise return, and what [[getInputHtml()]]’s and
      * [[serializeValue()]]’s $value arguments will be set to.
      *
-     * @param mixed                 $value   The raw field value
+     * @param mixed $value The raw field value
      * @param ElementInterface|null $element The element the field is associated with, if there is one
      *
      * @return mixed The prepared field value
@@ -108,13 +110,11 @@ class TableMakerField extends Field
     public function normalizeValue($value, ElementInterface $element = null)
     {
 
-        if ( !is_array($value) )
-        {
+        if (!is_array($value)) {
             $value = Json::decode($value);
         }
 
-        if ( !isset($value['rows']) )
-        {
+        if (!isset($value['rows'])) {
             $value['rows'] = [];
         }
 
@@ -125,11 +125,9 @@ class TableMakerField extends Field
                     <tr>
         ';
 
-        if ( !empty($value['columns']) )
-        {
-            foreach ($value['columns'] as $col)
-            {
-                $html .= '<th align="' . $col['align'] . '" width="' . $col['width'] . '">' . $col['heading'] . '</th>';
+        if (!empty($value['columns'])) {
+            foreach ($value['columns'] as $col) {
+                $html .= '<th data-show="' . $col['show'] . '" data-displayheading="' . addslashes($col['displayheading']) . '" data-metaheading="' . addslashes($col['metaheading']) . '">' . $col['heading'] . '</th>';
             }
         }
 
@@ -141,25 +139,20 @@ class TableMakerField extends Field
 
         ';
 
-        if ( !empty($value['rows']) )
-        {
+        if (!empty($value['rows'])) {
 
-            foreach ($value['rows'] as $row)
-            {
+            foreach ($value['rows'] as $row) {
 
                 $html .= '<tr>';
 
                 $i = 0;
                 foreach ($row as $key => $cell) {
-                    $align = $value['columns'][$key]['align'] ?? $value['columns'][$i]['align'];
-                    $html .= '<td align="' . $align . '">' . $cell . '</td>';
+                    $html .= '<td>' . $cell . '</td>';
                     $i++;
                 }
 
                 $html .= '</tr>';
-
             }
-
         }
 
         $html .= '
@@ -183,7 +176,7 @@ class TableMakerField extends Field
      * If the method returns `false`, the query will be stopped before it ever gets a chance to execute.
      *
      * @param ElementQueryInterface $query The element query
-     * @param mixed                 $value The value that was set on this field’s corresponding [[ElementCriteriaModel]] param,
+     * @param mixed $value The value that was set on this field’s corresponding [[ElementCriteriaModel]] param,
      *                                     if any.
      *
      * @return null|false `false` in the event that the method is sure that no elements are going to be found.
@@ -191,16 +184,13 @@ class TableMakerField extends Field
     public function serializeValue($value, ElementInterface $element = null)
     {
 
-        if ( !empty($value['rows']) && is_array($value['rows']) )
-        {
+        if (!empty($value['rows']) && is_array($value['rows'])) {
             // drop keys from the rows array
             $value['rows'] = array_values($value['rows']);
 
             // loop each row
-            foreach ($value['rows'] as &$row)
-            {
-                if ( is_array($row) )
-                {
+            foreach ($value['rows'] as &$row) {
+                if (is_array($row)) {
                     // drop those array keys
                     $row = array_values($row);
                 }
@@ -208,8 +198,7 @@ class TableMakerField extends Field
         }
 
         // // drop keys from the columns array
-        if ( !empty($value['columns']) && is_array($value['columns']) )
-        {
+        if (!empty($value['columns']) && is_array($value['columns'])) {
             $value['columns'] = array_values($value['columns']);
         }
 
@@ -237,134 +226,166 @@ class TableMakerField extends Field
     /**
      * Returns the field’s input HTML.
      *
-     * @param mixed                 $value           The field’s value. This will either be the [[normalizeValue() normalized value]],
+     * @param mixed $value The field’s value. This will either be the [[normalizeValue() normalized value]],
      *                                               raw POST data (i.e. if there was a validation error), or null
-     * @param ElementInterface|null $element         The element the field is associated with, if there is one
+     * @param ElementInterface|null $element The element the field is associated with, if there is one
      *
      * @return string The input HTML.
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
         $view = Craft::$app->getView();
+        $fieldSettings = $this->getSettings();
 
         // Register our asset bundle
         $view->registerAssetBundle(FieldAsset::class);
 
         $name = $this->handle;
 
-        $columnsInput = $name.'[columns]';
-        $rowsInput    = $name.'[rows]';
+        $columnsInput = $name . '[columns]';
+        $rowsInput = $name . '[rows]';
 
-        $columnsInputId = $name.'-columns';
-        $rowsInputId = $name.'-rows';
+        $columnsInputId = $name . '-columns';
+        $rowsInputId = $name . '-rows';
 
         // make input
-        $input = '<input class="table-maker-field" type="hidden" name="'.$name.'" value="">';
+        $input = '<input class="table-maker-field" type="hidden" name="' . $name . '" value="">';
 
         // get columns from db or fall back to default
-        if ( !empty($value['columns']) )
-        {
+        if (!empty($value['columns'])) {
             foreach ($value['columns'] as $key => $val) {
-                $columns['col'.$key] = array(
+                $columns['col' . $key] = [
                     'heading' => $val['heading'],
-                    'align' => $val['align'],
-                    'width' => $val['width'],
+                    'displayheading'  => $val['displayheading'],
+                    'show' => $val['show'],
                     'type' => 'singleline'
-                );
+                ];
+
+                if ($fieldSettings['columnsIncludeMetaheading']) {
+                    $columns['col' . $key]['metaheading'] = $val['metaheading'];
+                }
+
+                if ($fieldSettings['columnsIncludeWidth']) {
+                    $columns['col' . $key]['width'] = $val['width'];
+                }
             }
-        }
-        else
-        {
-            $columns = array(
-                'col0' => array(
+        } else {
+            $columns = [
+                'col0' => [
                     'heading' => '',
                     'align' => '',
                     'width' => '',
                     'type' => 'singleline'
-                )
-            );
+                ]
+            ];
+
+            if ($fieldSettings['columnsIncludeMetaheading']) {
+                $columns['col1'] = [
+                    'heading' => '',
+                    'align' => '',
+                    'width' => '',
+                    'type' => 'singleline'
+                ];
+            }
+
+            if ($fieldSettings['columnsIncludeWidth']) {
+                $columns['col1'] = [
+                    'heading' => '',
+                    'align' => '',
+                    'width' => '',
+                    'type' => 'number'
+                ];
+            }
         }
 
 
         // get rows from db or fall back to default
-        if ( !empty($value['rows']) )
-        {
+        if (!empty($value['rows'])) {
             // walk down the rows and cells appending 'row' to the rows' keys
             // and 'col' to the cells' keys
             foreach ($value['rows'] as $rowKey => $rowVal) {
                 foreach ($rowVal as $colKey => $colVal) {
-                    $rows['row'.$rowKey]['col'.$colKey] = $colVal;
+                    $rows['row' . $rowKey]['col' . $colKey] = $colVal;
                 }
             }
-        }
-        else
-        {
-            $rows = array('row0' => array());
+        } else {
+            $rows = ['row0' => []];
         }
 
         // prep col settings
-        $columnSettings = array(
-            'heading' => array(
+        $columnSettings = [
+            'heading' => [
                 'heading' => Craft::t('tablemaker', 'Heading'),
                 'type' => 'singleline'
-            ),
-            'width' => array(
-                'heading' => Craft::t('tablemaker', 'Width'),
-                'class' => 'code',
-                'type' => 'singleline',
+            ],
+            'displayheading' => [
+                'heading' => Craft::t('tablemaker', 'Display Heading'),
+                'type' => 'singleline'
+            ],
+            'show' => [
+                'heading' => Craft::t('tablemaker', 'Show Column'),
+                'type' => 'checkbox',
                 'width' => 50
-            ),
-            'align' => array(
-                'heading' => Craft::t('tablemaker', 'Alignment'),
-                'class' => 'thin',
-                'type' => 'select',
-                'options' => array(
-                    'left'   => Craft::t('tablemaker', 'Left'),
-                    'center' => Craft::t('tablemaker', 'Center'),
-                    'right'  => Craft::t('tablemaker', 'Right')
-                )
-            )
-        );
+            ],
+            'metaheading' => [
+                'heading' => Craft::t('tablemaker', 'Meta Heading'),
+                'type' => 'singleline'
+            ]
+        ];
+
+
+        if ($fieldSettings['columnsIncludeMetaheading']) {
+            $columnSettings['metaheading'] = [
+                'heading' => Craft::t('tablemaker', 'Meta Heading'),
+                'type' => 'singleline'
+            ];
+        }
+        if ($fieldSettings['columnsIncludeWidth']) {
+            $columnSettings['width'] = [
+                'heading' => Craft::t('tablemaker', 'Width'),
+                'type' => 'number'
+            ];
+        }
 
         // init the js
         $view->registerJs('new Craft.TableMaker(' .
-            Json::encode($view->namespaceInputId($name), JSON_UNESCAPED_UNICODE).', ' .
-            Json::encode($view->namespaceInputId($columnsInputId), JSON_UNESCAPED_UNICODE).', ' .
-            Json::encode($view->namespaceInputId($rowsInputId), JSON_UNESCAPED_UNICODE).', ' .
-            Json::encode($view->namespaceInputName($columnsInput), JSON_UNESCAPED_UNICODE).', ' .
-            Json::encode($view->namespaceInputName($rowsInput), JSON_UNESCAPED_UNICODE).', ' .
-            Json::encode($columns, JSON_UNESCAPED_UNICODE).', ' .
-            Json::encode($rows, JSON_UNESCAPED_UNICODE).', ' .
+            Json::encode($view->namespaceInputId($name), JSON_UNESCAPED_UNICODE) . ', ' .
+            Json::encode($view->namespaceInputId($columnsInputId), JSON_UNESCAPED_UNICODE) . ', ' .
+            Json::encode($view->namespaceInputId($rowsInputId), JSON_UNESCAPED_UNICODE) . ', ' .
+            Json::encode($view->namespaceInputName($columnsInput), JSON_UNESCAPED_UNICODE) . ', ' .
+            Json::encode($view->namespaceInputName($rowsInput), JSON_UNESCAPED_UNICODE) . ', ' .
+            Json::encode($columns, JSON_UNESCAPED_UNICODE) . ', ' .
+            Json::encode($rows, JSON_UNESCAPED_UNICODE) . ', ' .
             Json::encode($columnSettings, JSON_UNESCAPED_UNICODE) .
-        ');');
+            ');');
 
         // render the two tables
         $fieldSettings = $this->getSettings();
-        $columnsField = $view->renderTemplateMacro('_includes/forms', 'editableTableField', array(
-            array(
+        $columnsField = $view->renderTemplateMacro('_includes/forms', 'editableTableField', [
+            [
                 'label' => $fieldSettings['columnsLabel'] ? Craft::t('tablemaker', $fieldSettings['columnsLabel']) : Craft::t('tablemaker', 'Table Columns'),
-                'instructions'  => $fieldSettings['columnsInstructions'] ? Craft::t('tablemaker', $fieldSettings['columnsInstructions']) : Craft::t('tablemaker', 'Define the columns your table should have.'),
-                'id'    => $columnsInputId,
-                'name'  => $columnsInput,
-                'cols'  => $columnSettings,
-                'rows'  => $columns,
-                'addRowLabel'   => $fieldSettings['columnsAddRowLabel'] ? Craft::t('tablemaker', $fieldSettings['columnsAddRowLabel']) : Craft::t('tablemaker', 'Add a column'),
-                'initJs'    => false
-            )
-        ));
+                'instructions' => $fieldSettings['columnsInstructions'] ? Craft::t('tablemaker', $fieldSettings['columnsInstructions']) : Craft::t('tablemaker', 'Define the columns your table should have.'),
+                'id' => $columnsInputId,
+                'name' => $columnsInput,
+                'cols' => $columnSettings,
+                'rows' => $columns,
+                'addRowLabel' => $fieldSettings['columnsAddRowLabel'] ? Craft::t('tablemaker', $fieldSettings['columnsAddRowLabel']) : Craft::t('tablemaker', 'Add a column'),
+                'initJs' => false
+            ]
+        ]);
 
-        $rowsField = $view->renderTemplateMacro('_includes/forms', 'editableTableField', array(
-            array(
+        $rowsField = $view->renderTemplateMacro('_includes/forms', 'editableTableField', [
+            [
                 'label' => $fieldSettings['rowsLabel'] ? Craft::t('tablemaker', $fieldSettings['rowsLabel']) : Craft::t('tablemaker', 'Table Content'),
-                'instructions'  => $fieldSettings['rowsInstructions'] ? Craft::t('tablemaker', $fieldSettings['rowsInstructions']) : Craft::t('tablemaker', 'Input the content of your table.'),
-                'id'                => $rowsInputId,
-                'name'              => $rowsInput,
-                'cols'              => $columns,
-                'rows'              => $rows,
-                'addRowLabel'       => $fieldSettings['rowsAddRowLabel'] ? Craft::t('tablemaker', $fieldSettings['rowsAddRowLabel']) : Craft::t('tablemaker', 'Add a row'),
-                'initJs'            => false
-            )
-        ));
+                'instructions' => $fieldSettings['rowsInstructions'] ? Craft::t('tablemaker', $fieldSettings['rowsInstructions']) : Craft::t('tablemaker', 'Input the content of your table.'),
+                'id' => $rowsInputId,
+                'name' => $rowsInput,
+                'cols' => $columns,
+                'rows' => $rows,
+                'addRowLabel' => $fieldSettings['rowsAddRowLabel'] ? Craft::t('tablemaker', $fieldSettings['rowsAddRowLabel']) : Craft::t('tablemaker', 'Add a row'),
+                'initJs' => false
+            ]
+        ]);
 
         return $input . $columnsField . $rowsField;
     }

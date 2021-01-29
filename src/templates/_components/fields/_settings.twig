@@ -15,7 +15,7 @@
 
 {% import "_includes/forms" as forms %}
 
-{% do view.registerAssetBundle("onedeseign\\tablemaker\\assetbundles\\field\\FieldAsset") %}
+{% do view.registerAssetBundle("onedesign\\tablemaker\\assetbundles\\field\\FieldAsset") %}
 
 
 <h2>Columns Table</h2>
@@ -39,6 +39,20 @@
   id: 'columnsAddRowLabel',
   name: 'columnsAddRowLabel',
   value: field['columnsAddRowLabel'],
+}) }}
+
+{{ forms.lightswitchField({
+  label: "Include meta heading field?"|t,
+  id: 'columnsIncludeMetaheading',
+  name: 'columnsIncludeMetaheading',
+  on: field['columnsIncludeMetaheading']
+}) }}
+
+{{ forms.lightswitchField({
+  label: "Include width field?"|t,
+  id: 'columnsIncludeWidth',
+  name: 'columnsIncludeWidth',
+  on: field['columnsIncludeWidth']
 }) }}
 
 <h2>Rows Table</h2>

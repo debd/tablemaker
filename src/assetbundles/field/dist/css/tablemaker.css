@@ -9,3 +9,26 @@
  * @package   TableMaker
  * @since     1.0.0
  */
+
+#fields-columns-field div.input, #fields-rows-field div.input {
+    overflow-x: scroll;
+}
+
+table#fields-rows th:first-child {
+    /*background-color: tan;*/
+    /*position: absolute;*/
+    min-width: 100px;
+}
+
+table#fields-rows td {
+    min-width: 50px;
+}
+
+table#fields-rows td:first-child {
+    min-width: 100px;
+    /*position: absolute;*/
+}
+
+/*table#fields-rows td:nth-child(2) {*/
+/*    margin-left: 100px;*/
+/*}*/
