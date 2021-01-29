@@ -1,5 +1,5 @@
 {
-    "name": "supercool/tablemaker",
+    "name": "onedesign/tablemaker",
     "description": "A user-definable table field type for Craft CMS",
     "type": "craft-plugin",
     "version": "2.0.1",
@@ -13,14 +13,18 @@
         "supercool"
     ],
     "support": {
-        "docs": "https://github.com/supercool/tablemaker/blob/master/README.md",
-        "issues": "https://github.com/supercool/tablemaker/issues"
+        "docs": "https://github.com/onedesign/tablemaker/blob/master/README.md",
+        "issues": "https://github.com/onedesign/tablemaker/issues"
     },
     "license": "MIT",
     "authors": [
         {
             "name": "Supercool Ltd",
             "homepage": "http://www.supercooldesign.co.uk/"
+        },
+        {
+            "name": "One Design Company",
+            "homepage": "https://onedesigncompany.com/"
         }
     ],
     "require": {
@@ -28,7 +32,7 @@
     },
     "autoload": {
         "psr-4": {
-          "supercool\\tablemaker\\": "src/"
+          "onedesign\\tablemaker\\": "src/"
         }
     },
     "extra": {
@@ -37,7 +41,7 @@
         "schemaVersion": "1.0.0",
         "hasCpSettings": false,
         "hasCpSection": false,
-        "changelogUrl": "https://raw.githubusercontent.com/supercool/tablemaker/master/CHANGELOG.md",
-        "class": "supercool\\tablemaker\\TableMaker"
+        "changelogUrl": "https://github.com/onedesign/tablemaker/blob/master/CHANGELOG.md",
+        "class": "onedesign\\tablemaker\\TableMaker"
     }
 }

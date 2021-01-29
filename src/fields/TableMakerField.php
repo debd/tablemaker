@@ -9,10 +9,10 @@
  * @copyright Copyright (c) 2018 Supercool Ltd
  */
 
-namespace supercool\tablemaker\fields;
+namespace onedesign\tablemaker\fields;
 
-use supercool\tablemaker\TableMaker;
-use supercool\tablemaker\assetbundles\field\FieldAsset;
+use onedesign\tablemaker\TableMaker;
+use onedesign\tablemaker\assetbundles\field\FieldAsset;
 
 use Craft;
 use craft\base\ElementInterface;
@@ -173,7 +173,7 @@ class TableMakerField extends Field
 
         return $value;
     }
-    
+
 
     /**
      * Modifies an element query.
@@ -260,7 +260,7 @@ class TableMakerField extends Field
 
         // make input
         $input = '<input class="table-maker-field" type="hidden" name="'.$name.'" value="">';
-        
+
         // get columns from db or fall back to default
         if ( !empty($value['columns']) )
         {

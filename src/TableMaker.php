@@ -9,18 +9,13 @@
  * @copyright Copyright (c) 2018 Supercool Ltd
  */
 
-namespace supercool\tablemaker;
+namespace onedesign\tablemaker;
 
 
-use Craft;
 use craft\base\Plugin;
-use craft\services\Plugins;
-use craft\events\PluginEvent;
-use craft\services\Fields;
 use craft\events\RegisterComponentTypesEvent;
-
-use supercool\tablemaker\fields\TableMakerField;
-
+use craft\services\Fields;
+use onedesign\tablemaker\fields\TableMakerField;
 use yii\base\Event;
 
 /**
@@ -35,7 +30,7 @@ class TableMaker extends Plugin
     // =========================================================================
 
     public static $plugin;
-    
+
 
     // Public Methods
     // =========================================================================
