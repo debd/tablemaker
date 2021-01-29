@@ -37,7 +37,7 @@
     },
     "extra": {
         "name": "Cassandra Table Maker",
-        "handle": "cassandra-tablemaker",
+        "handle": "tablemaker",
         "schemaVersion": "1.0.0",
         "hasCpSettings": false,
         "hasCpSection": false,
