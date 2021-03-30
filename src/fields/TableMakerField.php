@@ -369,6 +369,7 @@ class TableMakerField extends Field
                 'name' => $columnsInput,
                 'cols' => $columnSettings,
                 'rows' => $columns,
+                'fieldClass' => 'tablemaker-columns',
                 'addRowLabel' => $fieldSettings['columnsAddRowLabel'] ? Craft::t('tablemaker', $fieldSettings['columnsAddRowLabel']) : Craft::t('tablemaker', 'Add a column'),
                 'initJs' => false
             ]
@@ -382,6 +383,7 @@ class TableMakerField extends Field
                 'name' => $rowsInput,
                 'cols' => $columns,
                 'rows' => $rows,
+                'fieldClass' => 'tablemaker-rows',
                 'addRowLabel' => $fieldSettings['rowsAddRowLabel'] ? Craft::t('tablemaker', $fieldSettings['rowsAddRowLabel']) : Craft::t('tablemaker', 'Add a row'),
                 'initJs' => false
             ]

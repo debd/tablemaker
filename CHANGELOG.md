@@ -11,3 +11,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## 2.0.1 - 2018-07-06
 ### Fixed
 - Fixed an error caused by deleting a column when there are mulitple columns and the deleted column is not the last one.
+
+## 2.0.2 - 2021-03-30
+### Fixed
+- Add `overflow-y: scroll` to inputs within column and row fields

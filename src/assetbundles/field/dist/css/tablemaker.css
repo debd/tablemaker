@@ -15,8 +15,6 @@
 }
 
 table#fields-rows th:first-child {
-    /*background-color: tan;*/
-    /*position: absolute;*/
     min-width: 100px;
 }
 
@@ -26,9 +24,11 @@ table#fields-rows td {
 
 table#fields-rows td:first-child {
     min-width: 100px;
-    /*position: absolute;*/
 }
 
-/*table#fields-rows td:nth-child(2) {*/
-/*    margin-left: 100px;*/
-/*}*/
+.tablemaker-columns .input,
+.tablemaker-rows .input {
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
