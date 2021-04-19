@@ -15,3 +15,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## 2.0.2 - 2021-03-30
 ### Fixed
 - Add `overflow-y: scroll` to inputs within column and row fields
+
+## 2.0.3 - 2021-04-19
+### Fixed
+- Correct typo causing javascript to misfire 
