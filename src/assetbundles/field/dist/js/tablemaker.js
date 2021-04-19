@@ -109,7 +109,7 @@
 
         $(document).on('copy', this.onCopy.bind(this));
 
-        this.addListener($('body'), 'mouseup', 'onBodyMouseUp');
+        this.addListener($('body'), 'mouseup', 'onBodyMouseup');
 
         // make the data blob
         this.makeDataBlob();
