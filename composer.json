@@ -1,5 +1,5 @@
 {
-    "name": "onedesign/tablemaker",
+    "name": "debd/tablemaker",
     "description": "A user-definable table field type for Craft CMS",
     "type": "craft-plugin",
     "version": "2.0.3",
@@ -13,8 +13,8 @@
         "supercool"
     ],
     "support": {
-        "docs": "https://github.com/onedesign/tablemaker/blob/master/README.md",
-        "issues": "https://github.com/onedesign/tablemaker/issues"
+        "docs": "https://github.com/debd/tablemaker/blob/master/README.md",
+        "issues": "https://github.com/debd/tablemaker/issues"
     },
     "license": "MIT",
     "authors": [
@@ -24,7 +24,7 @@
         },
         {
             "name": "One Design Company",
-            "homepage": "https://onedesigncompany.com/"
+            "homepage": "https://debdcompany.com/"
         }
     ],
     "require": {
@@ -35,7 +35,7 @@
     },
     "autoload": {
         "psr-4": {
-          "onedesign\\tablemaker\\": "src/"
+          "debd\\tablemaker\\": "src/"
         }
     },
     "extra": {
@@ -44,7 +44,7 @@
         "schemaVersion": "1.0.0",
         "hasCpSettings": false,
         "hasCpSection": false,
-        "changelogUrl": "https://github.com/onedesign/tablemaker/blob/master/CHANGELOG.md",
-        "class": "onedesign\\tablemaker\\TableMaker"
+        "changelogUrl": "https://github.com/debd/tablemaker/blob/master/CHANGELOG.md",
+        "class": "debd\\tablemaker\\TableMaker"
     }
 }

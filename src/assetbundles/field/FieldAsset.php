@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2018 Supercool Ltd
  */
 
-namespace onedesign\tablemaker\assetbundles\field;
+namespace debd\tablemaker\assetbundles\field;
 
 use Craft;
 use craft\web\AssetBundle;
@@ -43,7 +43,7 @@ class FieldAsset extends AssetBundle
     public function init()
     {
         // define the path that your publishable resources live
-        $this->sourcePath = "@onedesign/tablemaker/assetbundles/field/dist";
+        $this->sourcePath = "@debd/tablemaker/assetbundles/field/dist";
 
         // define the dependencies
         $this->depends = [

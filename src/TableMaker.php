@@ -9,13 +9,13 @@
  * @copyright Copyright (c) 2018 Supercool Ltd
  */
 
-namespace onedesign\tablemaker;
+namespace debd\tablemaker;
 
 
 use craft\base\Plugin;
 use craft\events\RegisterComponentTypesEvent;
 use craft\services\Fields;
-use onedesign\tablemaker\fields\TableMakerField;
+use debd\tablemaker\fields\TableMakerField;
 use yii\base\Event;
 
 /**

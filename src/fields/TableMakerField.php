@@ -9,10 +9,10 @@
  * @copyright Copyright (c) 2018 Supercool Ltd
  */
 
-namespace onedesign\tablemaker\fields;
+namespace debd\tablemaker\fields;
 
-use onedesign\tablemaker\TableMaker;
-use onedesign\tablemaker\assetbundles\field\FieldAsset;
+use debd\tablemaker\TableMaker;
+use debd\tablemaker\assetbundles\field\FieldAsset;
 
 use Craft;
 use craft\base\ElementInterface;
