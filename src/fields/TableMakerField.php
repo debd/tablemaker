@@ -129,8 +129,12 @@ class TableMakerField extends Field
 
         if (!empty($value['columns'])) {
             foreach ($value['columns'] as $col) {
+                $show = isset($col['show']) ? 'data-show="' . $col['show'] . '"' : '';
                 $width = isset($col['columnWidth']) ? 'width="' . $col['columnWidth'] . '"' : '';
-                $html .= '<th ' . $width . ' data-show="' . $col['show'] . '" data-displayheading="' . addslashes($col['displayheading']) . '" data-metaheading="' . addslashes($col['metaheading']) . '">' . $col['heading'] . '</th>';
+                $displayheading = isset($col['displayheading']) ? 'data-displayheading="' . addslashes($col['displayheading']) . '"' : '';
+                $metaheading = isset($col['metaheading']) ? 'data-metaheading="' . addslashes($col['metaheading']) . '"' : '';
+
+                $html .= '<th ' . $width . ' ' . $show . '  ' . $displayheading . ' ' . $metaheading . '>' . $col['heading'] . '</th>';
             }
         }
 
@@ -262,15 +266,15 @@ class TableMakerField extends Field
                     'type' => 'singleline'
                 ];
 
-                if ($fieldSettings['columnsIncludeShow']) {
+                if ($fieldSettings['columnsIncludeShow'] && isset($val['show'])) {
                     $columns['col' . $key]['show'] = $val['show'];
                 }
 
-                if ($fieldSettings['columnsIncludeDisplayheading']) {
+                if ($fieldSettings['columnsIncludeDisplayheading'] && isset($val['displayheading'])) {
                     $columns['col' . $key]['displayheading'] = $val['displayheading'];
                 }           
 
-                if ($fieldSettings['columnsIncludeMetaheading']) {
+                if ($fieldSettings['columnsIncludeMetaheading'] && isset($val['metaheading'])) {
                     $columns['col' . $key]['metaheading'] = $val['metaheading'];
                 }
 
