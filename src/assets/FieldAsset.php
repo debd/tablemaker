@@ -8,9 +8,8 @@
  * @copyright Copyright (c) 2018 Supercool Ltd
  */
 
-namespace debd\tablemaker\assetbundles\field;
+namespace debd\tablemaker\assets;
 
-use Craft;
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 
@@ -43,7 +42,7 @@ class FieldAsset extends AssetBundle
     public function init()
     {
         // define the path that your publishable resources live
-        $this->sourcePath = "@debd/tablemaker/assetbundles/field/dist";
+        $this->sourcePath = "@debd/tablemaker/resources";
 
         // define the dependencies
         $this->depends = [

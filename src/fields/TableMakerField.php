@@ -11,13 +11,11 @@
 
 namespace debd\tablemaker\fields;
 
-use debd\tablemaker\TableMaker;
-use debd\tablemaker\assetbundles\field\FieldAsset;
+use debd\tablemaker\assets\FieldAsset;
 
 use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
-use craft\helpers\Db;
 use yii\db\Schema;
 use craft\helpers\Json;
 use craft\helpers\Template;
