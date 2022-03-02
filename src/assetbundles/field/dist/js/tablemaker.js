@@ -86,8 +86,16 @@
         this.columnsTableName = columnsTableName;
         this.rowsTableName = rowsTableName;
 
-        this.columnsTableInputPath = this.columnsTableId.split('-');
-        this.rowsTableInputPath = this.rowsTableId.split('-');
+        var columnsInputPath = columnsTableId.replace(/vizy-block-([^-]*)/, function(value) {
+          return value.replace(/-/g, '_')
+        });
+  
+        var rowsInputPath = rowsTableId.replace(/vizy-block-([^-]*)/, function(value) {
+          return value.replace(/-/g, '_')
+        });
+
+        this.columnsTableInputPath = columnsInputPath.split('-');
+        this.rowsTableInputPath = rowsInputPath.split('-');
 
         this.columns = columns;
         this.rows = rows;
@@ -243,6 +251,10 @@
 
           for (var i = 0; i < this.columnsTableInputPath.length; i++) {
             var key = this.columnsTableInputPath[i];
+            if (key.includes('vizy_block')) {
+              key = key.replace(/_/g, '-')
+            }
+
             columns = columns[key];
           }
 
@@ -254,6 +266,10 @@
 
           for (var i = 0; i < this.rowsTableInputPath.length; i++) {
             var key = this.rowsTableInputPath[i];
+            if (key.includes('vizy_block')) {
+              key = key.replace(/_/g, '-')
+            }
+            
             rows = rows[key];
           }
 
