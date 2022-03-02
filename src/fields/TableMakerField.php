@@ -39,6 +39,8 @@ class TableMakerField extends Field
     public $rowsLabel;
     public $rowsInstructions;
     public $rowsAddRowLabel;
+    public $columnsIncludeShow;
+    public $columnsIncludeDisplayheading;
     public $columnsIncludeMetaheading;
     public $columnsIncludeWidth;
 
@@ -256,10 +258,16 @@ class TableMakerField extends Field
             foreach ($value['columns'] as $key => $val) {
                 $columns['col' . $key] = [
                     'heading' => $val['heading'],
-                    'displayheading'  => $val['displayheading'],
-                    'show' => $val['show'],
                     'type' => 'singleline'
                 ];
+
+                if ($fieldSettings['columnsIncludeShow']) {
+                    $columns['col' . $key]['show'] = $val['show'];
+                }
+
+                if ($fieldSettings['columnsIncludeDisplayheading']) {
+                    $columns['col' . $key]['displayheading'] = $val['displayheading'];
+                }           
 
                 if ($fieldSettings['columnsIncludeMetaheading']) {
                     $columns['col' . $key]['metaheading'] = $val['metaheading'];
@@ -278,6 +286,24 @@ class TableMakerField extends Field
                     'type' => 'singleline'
                 ]
             ];
+
+            if ($fieldSettings['columnsIncludeShow']) {
+                $columns['col1'] = [
+                    'heading' => '',
+                    'align' => '',
+                    'width' => 50,
+                    'type' => 'checkbox'
+                ];
+            }
+
+            if ($fieldSettings['columnsIncludeDisplayheading']) {
+                $columns['col1'] = [
+                    'heading' => '',
+                    'align' => '',
+                    'width' => '',
+                    'type' => 'singleline'
+                ];
+            }            
 
             if ($fieldSettings['columnsIncludeMetaheading']) {
                 $columns['col1'] = [
@@ -318,22 +344,21 @@ class TableMakerField extends Field
                 'heading' => Craft::t('tablemaker', 'Heading'),
                 'type' => 'singleline'
             ],
-            'displayheading' => [
-                'heading' => Craft::t('tablemaker', 'Display Heading'),
-                'type' => 'singleline'
-            ],
-            'show' => [
+        ];
+
+        if ($fieldSettings['columnsIncludeShow']) {
+            $columnSettings['show'] = [
                 'heading' => Craft::t('tablemaker', 'Show Column'),
                 'type' => 'checkbox',
                 'width' => 50
-            ],
-            'metaheading' => [
-                'heading' => Craft::t('tablemaker', 'Meta Heading'),
+            ];
+        }    
+        if ($fieldSettings['columnsIncludeDisplayheading']) {
+            $columnSettings['displayheading'] = [
+                'heading' => Craft::t('tablemaker', 'Display Heading'),
                 'type' => 'singleline'
-            ]
-        ];
-
-
+            ];
+        }        
         if ($fieldSettings['columnsIncludeMetaheading']) {
             $columnSettings['metaheading'] = [
                 'heading' => Craft::t('tablemaker', 'Meta Heading'),
