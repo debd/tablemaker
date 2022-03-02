@@ -19,3 +19,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## 2.0.3 - 2021-04-19
 ### Fixed
 - Correct typo causing javascript to misfire 
+
+## 2.0.4 - 2022-03-02
+### Added
+- More options to customize CP UI
+### Fixed
+- Compatibility with Vizy
