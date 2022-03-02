@@ -24,8 +24,12 @@
         },
         {
             "name": "One Design Company",
-            "homepage": "https://debdcompany.com/"
-        }
+            "homepage": "https://onedesigncompany.com/"
+        },
+        {
+            "name": "DennerleinBrands GmbH",
+            "homepage": "https://debd.com/"
+        }        
     ],
     "require": {
         "craftcms/cms": "^3.0.0-RC1"

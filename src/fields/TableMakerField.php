@@ -129,7 +129,8 @@ class TableMakerField extends Field
 
         if (!empty($value['columns'])) {
             foreach ($value['columns'] as $col) {
-                $html .= '<th data-show="' . $col['show'] . '" data-displayheading="' . addslashes($col['displayheading']) . '" data-metaheading="' . addslashes($col['metaheading']) . '">' . $col['heading'] . '</th>';
+                $width = isset($col['columnWidth']) ? 'width="' . $col['columnWidth'] . '"' : '';
+                $html .= '<th ' . $width . ' data-show="' . $col['show'] . '" data-displayheading="' . addslashes($col['displayheading']) . '" data-metaheading="' . addslashes($col['metaheading']) . '">' . $col['heading'] . '</th>';
             }
         }
 
@@ -273,8 +274,8 @@ class TableMakerField extends Field
                     $columns['col' . $key]['metaheading'] = $val['metaheading'];
                 }
 
-                if ($fieldSettings['columnsIncludeWidth']) {
-                    $columns['col' . $key]['width'] = $val['width'];
+                if ($fieldSettings['columnsIncludeWidth'] && isset($val['columnWidth'])) {
+                    $columns['col' . $key]['columnWidth'] = $val['columnWidth'];
                 }
             }
         } else {
@@ -353,12 +354,14 @@ class TableMakerField extends Field
                 'width' => 50
             ];
         }    
+
         if ($fieldSettings['columnsIncludeDisplayheading']) {
             $columnSettings['displayheading'] = [
                 'heading' => Craft::t('tablemaker', 'Display Heading'),
                 'type' => 'singleline'
             ];
         }        
+        
         if ($fieldSettings['columnsIncludeMetaheading']) {
             $columnSettings['metaheading'] = [
                 'heading' => Craft::t('tablemaker', 'Meta Heading'),
@@ -366,9 +369,10 @@ class TableMakerField extends Field
             ];
         }
         if ($fieldSettings['columnsIncludeWidth']) {
-            $columnSettings['width'] = [
+            $columnSettings['columnWidth'] = [
                 'heading' => Craft::t('tablemaker', 'Width'),
-                'type' => 'number'
+                'type' => 'singleline',
+                'width' => 100,
             ];
         }
 
