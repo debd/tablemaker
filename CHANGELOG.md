@@ -33,3 +33,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## 2.0.6 - 2022-03-02
 ### Fixed
 - Handling of missing fields
+
+## 2.0.7 - 2022-03-02
+### Fixed
+- Asset paths
