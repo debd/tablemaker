@@ -42,6 +42,20 @@
 }) }}
 
 {{ forms.lightswitchField({
+  label: "Include show field?"|t,
+  id: 'columnsIncludeShow',
+  name: 'columnsIncludeShow',
+  on: field['columnsIncludeShow']
+}) }}
+
+{{ forms.lightswitchField({
+  label: "Include display heading field?"|t,
+  id: 'columnsIncludeDisplayheading',
+  name: 'columnsIncludeDisplayheading',
+  on: field['columnsIncludeDisplayheading']
+}) }}
+
+{{ forms.lightswitchField({
   label: "Include meta heading field?"|t,
   id: 'columnsIncludeMetaheading',
   name: 'columnsIncludeMetaheading',
