@@ -29,3 +29,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## 2.0.5 - 2022-03-02
 ### Fixed
 - Width setting
+
+## 2.0.6 - 2022-03-02
+### Fixed
+- Handling of missing fields
