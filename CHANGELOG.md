@@ -37,3 +37,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## 2.0.7 - 2022-03-02
 ### Fixed
 - Asset paths
+
+## 2.0.8 - 2022-03-02
+### Fixed
+- Pasting table data
