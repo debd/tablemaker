@@ -294,6 +294,7 @@
 
       onPaste: function(e) {
         var debug = false;
+        var tableContentPasted = false;
 
         try {
           var srcHtml = e.originalEvent.clipboardData.getData('text/html');
@@ -323,7 +324,6 @@
             }
 
             // Add the needed rows
-
             for (var i = 0; i < rowsNeeded; i++) {
               editableTable.addRow();
             }
@@ -333,7 +333,6 @@
           }
 
           // Now copy the data!
-
           var columnsToCopy = Math.min($srcRows.first().find('td').length, $targetElement.parent('td').nextAll('td').addBack().filter(':has(textarea)').length);
           for (var rowIdx = 0; rowIdx < $srcRows.length; rowIdx++) {
             var $srcRow = $srcRows.eq(rowIdx);
@@ -344,9 +343,11 @@
             var $targetCells = $targetTds.find('textarea');
 
             for (var colIdx = 0; colIdx < columnsToCopy; colIdx++) {
-              $targetCells.eq(colIdx).val($.trim($srcCells.eq(colIdx).html()));
+              $targetCells.eq(colIdx).val($.trim($srcCells.eq(colIdx).text()));
             }
           }
+
+          tableContentPasted = true
           // var destElement = e.originalEvent.
         } catch (err) {
           // If we're not debugging, ignore all errors and return
@@ -355,7 +356,7 @@
           }
         }
 
-        e.preventDefault();
+        if (tableContentPasted) e.preventDefault();
       },
 
       startCell: null,
