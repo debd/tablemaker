@@ -344,10 +344,9 @@
 
             for (var colIdx = 0; colIdx < columnsToCopy; colIdx++) {
               $targetCells.eq(colIdx).val($.trim($srcCells.eq(colIdx).text()));
+              tableContentPasted = true
             }
           }
-
-          tableContentPasted = true
           // var destElement = e.originalEvent.
         } catch (err) {
           // If we're not debugging, ignore all errors and return
